@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name', 100);
-            $table->string('nip', 20)->nullable();
-            $table->string('ni_ppk', 20)->nullable();
-            $table->string('ttl', 100)->nullable();
+            $table->unsignedBigInteger('user_id')->index();
+            $table->string('name');
+            $table->string('nip')->unique()->index();
+            $table->string('position')->nullable();
+            $table->text('about_me')->nullable();
+            $table->string('ttl')->nullable();
             $table->text('address')->nullable();
-            $table->string('phone_number', 20)->nullable();
+            $table->string('phone_number')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

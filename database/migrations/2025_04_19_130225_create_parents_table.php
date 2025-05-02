@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name', 100)->nullable();
-            $table->string('ttl', 100)->nullable();
-            $table->string('education', 50)->nullable();
-            $table->string('work', 100)->nullable();
-            $table->decimal('monthly_income', 15, 2)->nullable();
-            $table->string('phone_number', 15)->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('name')->nullable();
+            $table->string('education')->nullable();
+            $table->string('work')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->text('address')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

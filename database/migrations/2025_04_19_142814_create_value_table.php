@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('value', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained('teachers')->onUpdate('cascade');
-            $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('cascade');
-            $table->foreignId('course_id')->constrained('course')->onDelete('cascade');
-            $table->string('academic_year', 10);
-            $table->decimal('value', 10, 0);
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('course_id');
+            $table->decimal('value', 5, 2);
             $table->text('information');
             $table->timestamps();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 

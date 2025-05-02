@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('schedule', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_class_id')->constrained('course_class')->onDelete('cascade');
+            $table->unsignedBigInteger('course_class_id');
             $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']);
             $table->time('jam_mulai');
             $table->time('jam_selesai');
-            $table->timestamps();
+            $table->foreign('course_class_id')->references('id')->on('course_class')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('schedule');
+        Schema::dropIfExists('schedules');
     }
 };

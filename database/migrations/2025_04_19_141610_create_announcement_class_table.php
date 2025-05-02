@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('announcement_class', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('announcement_id')->constrained('announcement')->onDelete('cascade');
-            $table->foreignId('class_id')->constrained('class')->onDelete('cascade');
-            $table->timestamps();
+            $table->unsignedBigInteger('announcement_id');
+            $table->unsignedBigInteger('class_id');
+            $table->foreign('announcement_id')->references('id')->on('announcements')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 

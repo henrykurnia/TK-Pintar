@@ -6,7 +6,8 @@
 
 
     @include('landing.partial.link')
-    <title>Tk Pertiwi Grojogan</title>
+    <link rel="icon" type="icon" href="/img/logo tutwuri.png">
+    <title>TK Pertiwi Grojogan</title>
 </head>
 <body class="bg-gray-100 ">
 
@@ -88,7 +89,7 @@
 
 
 <!-- visi - misi -->
-<section class="bg-white pt-8 px-4 pb-8">
+<section id="visi-misi" class="bg-white pt-8 px-4 pb-8">
     <div class="max-w-7xl mx-auto text-center">
        <h1 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center">
             VISI-MISI
@@ -125,7 +126,7 @@
 
 
 <!-- artikel -->
-<section class="artikel min-h-screen">
+<section id="artikel" class="artikel min-h-screen">
   <div class="max-w-7xl mx-auto text-center pt-8 px-4">
     <h2 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center">ARTIKEL</h2>
     <p class="font-regular text-sm md:text-[18px] text-black mb-10 w-full max-w-8xl">
@@ -158,21 +159,77 @@
         </a>
       </div>
     </div>
-  </div>
-
-
-
-
-
-  
-
-      
+  </div>      
   </div>
 </section>
 
+<footer class="bg-white py-4">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Container Maps dengan border top-bottom -->
+        <div class="py-6 mb-6">
+            <h2 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center">TENTANG KAMI
+            </h2>
+            <div class="w-full h-[200px] md:h-[450px]">
 
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.590863909551!2d111.86268027484245!3d-7.6194175923959495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e784bf5e349dfa9%3A0x311f48f59fab4e95!2sTK%20Pertiwi%20Grojogan!5e0!3m2!1sid!2sid!4v1746017641729!5m2!1sid!2sid"
+                    class="w-full h-full border-b-3 border-t-3  border-[#0090D4] " allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
 
+        <!-- Baris kode pos dan kontak -->
+        <div class="flex flex-col md:flex-row gap-6 mb-8">
+            <!-- Kode Pos di Kiri -->
+            <div class="w-full md:w-1/2">
+                <div class="flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0090D4] mt-1 mr-3 flex-shrink-0"
+                        viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-700">Alamat Lengkap</h4>
+                        <p class="text-sm text-gray-600">
+                            
+                            Grojogan, Kec. Berbek<br>
+                            Kab. Nganjuk, Jawa Timur<br>
+                            64473
+                        </p>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Kontak di Kanan -->
+            <div class="w-full md:w-1/2">
+                <h3 class="text-lg font-semibold text-[#0090D4] mb-3">Hubungi Kami</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0090D4] mr-3 flex-shrink-0"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg>
+                        <p class="text-sm">(0358) 123456</p>
+                    </div>
+
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0090D4] mr-3 flex-shrink-0"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                        </svg>
+                        <p class="text-sm">info@tkpertiwigrojogan.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @include('landing.partial.footer')
+    </div>
+</footer>
 
 
        

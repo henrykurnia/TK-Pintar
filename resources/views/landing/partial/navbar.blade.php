@@ -1,7 +1,6 @@
 <nav class="bg-white drop-shadow-md fixed top-0 left-0 w-full z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
-
             <!-- Logo -->
             <div class="flex items-center">
                 <img class="h-8 w-auto" src="/img/logo tutwuri.png" alt="Logo">
@@ -10,68 +9,120 @@
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8">
-                <a href="#hero" class="text-gray-900 font-medium relative group">
+                @php
+                    $fragment = request()->query('_fragment');
+                    $currentPath = request()->path();
+                @endphp
+
+                <a href="{{ url('/?_fragment=hero') }}"
+                    class="nav-link font-medium transition-colors duration-300 {{ ($currentPath === '/' && (!$fragment || $fragment === 'hero')) ? 'text-[#0090D4]' : 'text-gray-500 hover:text-[#0090D4]' }}">
                     Beranda
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-[#0090D4] transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#sekilas" class="text-gray-500 hover:text-gray-900 font-medium relative group">
+                <a href="{{ url('/?_fragment=sekilas') }}"
+                    class="nav-link font-medium transition-colors duration-300 {{ $fragment === 'sekilas' ? 'text-[#0090D4]' : 'text-gray-500 hover:text-[#0090D4]' }}">
                     Sekilas
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-[#0090D4] transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-gray-900 font-medium relative group">
+                <a href="{{ url('/?_fragment=visi-misi') }}"
+                    class="nav-link font-medium transition-colors duration-300 {{ $fragment === 'visi-misi' ? 'text-[#0090D4]' : 'text-gray-500 hover:text-[#0090D4]' }}">
                     Visi-Misi
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-[#0090D4] transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-gray-900 font-medium relative group">
+                <a href="{{ url('/?_fragment=artikel') }}"
+                    class="nav-link font-medium transition-colors duration-300 {{ $fragment === 'artikel' ? 'text-[#0090D4]' : 'text-gray-500 hover:text-[#0090D4]' }}">
                     Artikel
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-[#0090D4] transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-gray-900 font-medium relative group">
+                <a href="{{ url('/guru-staff') }}"
+                    class="nav-link font-medium transition-colors duration-300 {{ $currentPath === 'guru-staff' ? 'text-[#0090D4]' : 'text-gray-500 hover:text-[#0090D4]' }}">
                     Guru & Staff
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-[#0090D4] transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-gray-900 font-medium relative group">
+                <a href="{{ url('/berkas') }}"
+                    class="nav-link font-medium transition-colors duration-300 {{ $currentPath === 'berkas' ? 'text-[#0090D4]' : 'text-gray-500 hover:text-[#0090D4]' }}">
                     Pendaftaran
-                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-[#0090D4] transition-all duration-300 group-hover:w-full"></span>
                 </a>
             </div>
 
             <!-- Tombol Masuk -->
-                <a href="{{ url('/login') }}"
-                class="px-4 py-2 bg-[#0090D4] text-white font-semibold rounded-md hover:bg-[#1b7a72] transition inline-block">
+            <a href="{{ url('/login') }}"
+                class="px-4 py-2 bg-[#0090D4] text-white font-semibold rounded-md hover:bg-[#1b7a72] transition-colors duration-300">
                 Masuk
-                </a>
-
+            </a>
         </div>
     </div>
 </nav>
 
 <!-- Bottom Navbar Mobile -->
 <div class="md:hidden fixed bottom-0 left-0 w-full bg-white drop-shadow-md z-50">
-    <div class="flex justify-around py-3 px-2 text-sm text-gray-700">
-        <a href="#hero" class="flex flex-col items-center text-[#0090D4]">
-            <i class="fas fa-home text-lg mb-1"></i>
-            <span class="text-xs">Beranda</span>
+    <div class="flex justify-around py-3 px-2 text-sm">
+        <a href="{{ url('/?_fragment=hero') }}"
+            class="mobile-nav-link flex flex-col items-center {{ ($currentPath === '/' && (!$fragment || $fragment === 'hero')) ? 'text-[#0090D4]' : 'text-gray-500' }}">
+            <span class="text-xs">BERANDA</span>
         </a>
-        <a href="#sekilas" class="flex flex-col items-center">
-            <i class="fas fa-info-circle text-lg mb-1"></i>
-            <span class="text-xs">Sekilas</span>
+        <a href="{{ url('/?_fragment=sekilas') }}"
+            class="mobile-nav-link flex flex-col items-center {{ $fragment === 'sekilas' ? 'text-[#0090D4]' : 'text-gray-500' }}">
+            <span class="text-xs">SEKILAS</span>
         </a>
-        <a href="#" class="flex flex-col items-center">
-            <i class="fas fa-bullseye text-lg mb-1"></i>
-            <span class="text-xs">Visi-Misi</span>
+        <a href="{{ url('/?_fragment=visi-misi') }}"
+            class="mobile-nav-link flex flex-col items-center {{ $fragment === 'visi-misi' ? 'text-[#0090D4]' : 'text-gray-500' }}">
+            <span class="text-xs">VISI-MISI</span>
         </a>
-        <a href="#" class="flex flex-col items-center">
-            <i class="fas fa-newspaper text-lg mb-1"></i>
-            <span class="text-xs">Artikel</span>
+        <a href="{{ url('/?_fragment=artikel') }}"
+            class="mobile-nav-link flex flex-col items-center {{ $fragment === 'artikel' ? 'text-[#0090D4]' : 'text-gray-500' }}">
+            <span class="text-xs">ARTIKEL</span>
         </a>
-        <a href="#" class="flex flex-col items-center">
-            <i class="fas fa-user-friends text-lg mb-1"></i>
-            <span class="text-xs">Guru-Staff</span>
+        <a href="{{ url('/guru-staff') }}"
+            class="mobile-nav-link flex flex-col items-center {{ $currentPath === 'guru-staff' ? 'text-[#0090D4]' : 'text-gray-500' }}">
+            <span class="text-xs">GURU & STAFF</span>
         </a>
-        <a href="#" class="flex flex-col items-center">
-            <i class="fas fa-user-plus text-lg mb-1"></i>
-            <span class="text-xs">Pendaftaran</span>
+        <a href="{{ url('/berkas') }}"
+            class="mobile-nav-link flex flex-col items-center {{ $currentPath === 'berkas' ? 'text-[#0090D4]' : 'text-gray-500' }}">
+            <span class="text-xs">PENDAFTARAN</span>
         </a>
     </div>
 </div>
+
+<!-- Scroll + Active Link Highlight Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fragment = new URLSearchParams(window.location.search).get('_fragment');
+        if (fragment) {
+            const target = document.getElementById(fragment);
+            if (target) {
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const offsetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+        }
+
+        // Dynamic highlight class switching
+        function activateLink(fragment) {
+            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(el => {
+                el.classList.remove('text-[#0090D4]');
+                el.classList.add('text-gray-500');
+            });
+
+            const selector = `[href*="_fragment=${fragment}"]`;
+            const activeLink = document.querySelector(selector);
+            if (activeLink) {
+                activeLink.classList.add('text-[#0090D4]');
+                activeLink.classList.remove('text-gray-500');
+            }
+        }
+
+        document.querySelectorAll('a[href*="_fragment="]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const url = new URL(this.href);
+                const fragment = url.searchParams.get('_fragment');
+                if (location.pathname === url.pathname && fragment) {
+                    e.preventDefault();
+                    const el = document.getElementById(fragment);
+                    if (el) {
+                        const navHeight = document.querySelector('nav').offsetHeight;
+                        const y = el.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                        history.replaceState(null, '', `?_fragment=${fragment}`);
+                        activateLink(fragment);
+                    }
+                }
+            });
+        });
+    });
+</script>

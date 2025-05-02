@@ -52,6 +52,7 @@
       <!-- Navigation -->
       <ul class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
+          
           <a href="{{ url('/dashboard') }}" class="text-xs uppercase py-3 font-bold block 
             {{ request()->is('dashboard') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
             <i class="fas fa-tv mr-2 text-sm {{ request()->is('dashboard') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>

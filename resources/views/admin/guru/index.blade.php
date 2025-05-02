@@ -42,15 +42,10 @@
 
 
           <!-- Tambah Siswa Button -->
-          <div class="min-w-[120px] ml-auto">
-            <a href="{{ url('/tambahguru') }}"
-              class="bg-[#0090D4] hover:bg-[#1a7a7b] text-white text-sm font-medium py-2 px-4 rounded-lg shadow transition whitespace-nowrap block text-center">
-              Tambah Wali Kelas
-            </a>
-          </div>
+          
 
           <div class="min-w-[120px] ml-auto">
-            <a href="{{ url('/tambahguru') }}"
+          <a href="{{ route('guru.create') }}"
               class="bg-[#0090D4] hover:bg-[#1a7a7b] text-white text-sm font-medium py-2 px-4 rounded-lg shadow transition whitespace-nowrap block text-center">
               Tambah
             </a>
@@ -73,8 +68,43 @@
                 <th class="aksi px-2 py-1">Pilihan</th>
               </tr>
             </thead>
+            <!-- Update the tbody section in your index view -->
             <tbody id="tbodyGuru" class="text-center">
-              <!-- Data akan diubah oleh JS -->
+              @foreach($teachers as $index => $teacher)
+          <tr class="border-b hover:bg-gray-50">
+          <td class="px-2 py-1">{{ $index + 1 }}</td>
+          <td class="px-2 py-1">{{ $teacher->name }}</td>
+          <td class="px-2 py-1">{{ $teacher->nip ?? '-' }}</td>
+          <td class="px-2 py-1">{{ $teacher->phone_number ?? '-' }}</td>
+          <td class="px-2 py-1">{{ Str::limit($teacher->address, 20) ?? '-' }}</td>
+          <td class="px-2 py-1">{{ $teacher->position ?? '-' }}</td>
+          <td class="px-2 py-1">
+    @if($teacher->photo_path)
+        <img src="{{ asset($teacher->photo_path) }}" 
+            alt="Foto" 
+            class="w-[80px] h-[120px] object-cover mx-auto" />
+    @else
+        -
+    @endif
+</td>
+
+          <td class="px-2 py-1">
+          <div class="flex justify-center gap-2">
+          <a href="{{ route('guru.edit', $teacher->id) }}" class="text-blue-600 hover:text-blue-800">
+          <i class="fas fa-edit"></i>
+          </a>
+          <form action="{{ route('guru.destroy', $teacher->id) }}" method="POST" class="inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="text-red-600 hover:text-red-800"
+          onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+          <i class="fas fa-trash"></i>
+          </button>
+          </form>
+          </div>
+          </td>
+          </tr>
+        @endforeach
             </tbody>
           </table>
         </div>
