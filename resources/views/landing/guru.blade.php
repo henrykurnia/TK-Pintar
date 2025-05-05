@@ -55,7 +55,7 @@
                 @endforeach
             </div>
 
-            @if($teachers->count() > 8)
+            @if($teachers->count() > 4)
                 <div class="mt-8">
                     <button id="load-more-btn"
                         class="px-6 py-2 bg-[#0090D4] text-white rounded-lg hover:bg-[#1b7a72] transition-colors duration-300">

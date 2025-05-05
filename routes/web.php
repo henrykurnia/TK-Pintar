@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\HeroSectionController;
 
 
 // Authentication Routes
@@ -24,7 +27,9 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 });
 
-Route::prefix('guru')->group(function () {
+//
+
+Route::prefix('guru')->middleware(['auth'])->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('guru.index');
     Route::get('/tambah', [TeacherController::class, 'create'])->name('guru.create');
     Route::post('/tambah', [TeacherController::class, 'store'])->name('guru.store');
@@ -46,10 +51,28 @@ Route::prefix('artikel')->middleware(['auth'])->group(function () {
     Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
 
-Route::get('/', function () {
-    return view('landing.index');
+Route::middleware('auth')->group(function () {
+    // Student routes
+    Route::prefix('siswa')->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('siswa.index');  // Changed from '/siswa' to '/'
+        Route::get('/tambah', [StudentController::class, 'create'])->name('siswa.create');
+        Route::post('/tambah', [StudentController::class, 'store'])->name('siswa.store');
+        Route::get('/{student}', [StudentController::class, 'show'])->name('siswa.show');
+        Route::get('/{student}/edit', [StudentController::class, 'edit'])->name('siswa.edit');
+        Route::put('/{student}', [StudentController::class, 'update'])->name('siswa.update');
+        Route::delete('/{student}', [StudentController::class, 'destroy'])->name('siswa.destroy');
+    });
+
+    // Other routes...
 });
 
+Route::get('/artikel/{id}', [ArticleController::class, 'showArticleDetail'])->name('landing.article.detail');
+
+Route::get('/', [LandingController::class, 'index'])->name('landing.home');
+
+// Route detail artikel
+Route::get('/artikel/{id}', [LandingController::class, 'showArticle'])
+    ->name('landing.article.detail');
 
 Route::get('/berkas', function () {
     return view('landing.pendaftaran');
@@ -61,13 +84,13 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
 
-Route::get('/siswa', function () {
-    return view('admin.siswa');
-});
+// Route::get('/siswa', function () {
+//     return view('admin.siswa.index');
+// });
 
-Route::get('/tambah', function () {
-    return view('admin.tambah_siswa');
-});
+// Route::get('/tambah', function () {
+//     return view('admin.siswa.tambah_siswa');
+// });
 
 // Route::get('/guru', function () {
 //     return view('admin.guru.guru');
@@ -98,7 +121,11 @@ Route::get('/siswa_guru', function () {
     return view('guru.siswa');
 });
 
-Route::get('/pengumuman', function () {
+Route::get('/tambah_pengumuman', function () {
     return view('guru.pengumuman');
+});
+
+Route::get('/pengumuman', function () {
+    return view('guru.index');
 });
 

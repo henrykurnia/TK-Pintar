@@ -15,6 +15,14 @@ class ArticleController extends Controller
         return view('admin.artikel.index', compact('articles'));
     }
 
+    
+    public function publicIndex()
+    {
+        $articles = Article::with('image')->latest()->get();
+        return view('public.articles', compact('articles'));
+    }
+
+
     public function create()
     {
         return view('admin.artikel.tambah_artikel');
@@ -42,21 +50,24 @@ class ArticleController extends Controller
                 $file->move(public_path('articles'), $fileName);
 
                 ImageUrl::create([
-                    'url' => 'articles/' . $fileName, // ✔️ tanpa slash di depan
+                    'url' => 'articles/' . $fileName,
                     'jenis' => 'article',
                     'owner_id' => $article->id,
                     'owner_type' => Article::class,
                 ]);
             }
 
-            return redirect()->route('articles.index')
-                ->with('success', 'Artikel berhasil ditambahkan!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Artikel berhasil ditambahkan!'
+            ]);
 
         } catch (\Exception $e) {
             \Log::error('Gagal tambah artikel: ' . $e->getMessage());
-            return back()
-                ->withInput()
-                ->with('error', 'Gagal menambahkan artikel: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menambahkan artikel: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -68,53 +79,77 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $article->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+        try {
+            $article->update([
+                'title' => $validated['title'],
+                'content' => $validated['content'],
+            ]);
 
-        if ($request->hasFile('url')) {
-            if ($article->image) {
-                $oldImagePath = public_path($article->image->url);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
+            if ($request->hasFile('url')) {
+                // Hapus gambar lama jika ada
+                if ($article->image) {
+                    $oldImagePath = public_path($article->image->url);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                    $article->image()->delete();
                 }
-                $article->image()->delete();
+
+                // Upload gambar baru
+                $file = $request->file('url');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('articles'), $fileName);
+
+                $article->image()->create([
+                    'url' => 'articles/' . $fileName,
+                    'jenis' => 'article',
+                ]);
             }
 
-            $file = $request->file('url');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('articles'), $fileName);
-
-            $article->image()->create([
-                'url' => 'articles/' . $fileName,
-                'jenis' => 'article',
+            return response()->json([
+                'success' => true,
+                'message' => 'Artikel berhasil diperbarui!'
             ]);
-        }
 
-        return redirect()->route('articles.index')
-            ->with('success', 'Artikel berhasil diperbarui!');
+        } catch (\Exception $e) {
+            \Log::error('Gagal update artikel: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui artikel: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function destroy(Article $article)
     {
-        if ($article->image) {
-            $imagePath = public_path($article->image->url);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+        try {
+            if ($article->image) {
+                $imagePath = public_path($article->image->url);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $article->image()->delete();
             }
-            $article->image()->delete();
+
+            $article->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Artikel berhasil dihapus!'
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Gagal hapus artikel: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus artikel: ' . $e->getMessage()
+            ], 500);
         }
-
-        $article->delete();
-
-        return redirect()->route('articles.index')
-            ->with('success', 'Artikel berhasil dihapus!');
     }
 }

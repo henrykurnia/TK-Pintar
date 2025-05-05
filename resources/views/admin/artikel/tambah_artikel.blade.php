@@ -25,7 +25,7 @@
         <!-- Card Shadow Wrapper -->
         <div class="bg-white p-6 rounded-lg shadow-md">
           <!-- Form -->
-          <form method="POST" action="{{ route('articles.store') }}" enctype="multipart/form-data"
+          <form id="articleForm" method="POST" action="{{ route('articles.store') }}" enctype="multipart/form-data"
             class="flex flex-col gap-4">
             @csrf
 
@@ -103,21 +103,69 @@
     }
   </script>
 
-  <!-- SweetAlert untuk notifikasi jika ada session flash -->
+  <!-- SweetAlert untuk notifikasi dengan fetch API -->
   <script>
-    @if(session('success'))
-    Swal.fire({
-      icon: 'success',
-      title: 'Berhasil!',
-      text: "{{ session('success') }}"
-    });
-  @elseif(session('error'))
-    Swal.fire({
-      icon: 'error',
-      title: 'Gagal!',
-      text: "{{ session('error') }}"
-    });
-  @endif
+    document.getElementById('articleForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        // Tampilkan loading indicator
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = 'Menyimpan...';
+        submitButton.disabled = true;
+
+        fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json', // Tambahkan header ini
+          },
+          // Tambahkan redirect: 'manual' untuk menangani redirect dari server
+          redirect: 'manual'
+        })
+          .then(response => {
+            // Jika response redirect (status 302)
+            if (response.redirected) {
+              window.location.href = response.url;
+              return;
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data && data.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: data.message,
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                window.location.href = "{{ route('articles.index') }}";
+              });
+            } else if (data) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: data.message
+              });
+            }
+          })
+          .catch(error => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: 'Terjadi kesalahan saat menyimpan data'
+            });
+          })
+          .finally(() => {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+          });
+      });
   </script>
 
 </body>

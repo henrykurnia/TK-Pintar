@@ -10,8 +10,8 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8">
                 @php
-                    $fragment = request()->query('_fragment');
-                    $currentPath = request()->path();
+$fragment = request()->query('_fragment');
+$currentPath = request()->path();
                 @endphp
 
                 <a href="{{ url('/?_fragment=hero') }}"
@@ -40,9 +40,9 @@
                 </a>
             </div>
 
-            <!-- Tombol Masuk -->
+           
             <a href="{{ url('/login') }}"
-                class="px-4 py-2 bg-[#0090D4] text-white font-semibold rounded-md hover:bg-[#1b7a72] transition-colors duration-300">
+                class="px-2.5 py-1 text-xs md:px-4 md:py-2 md:text-base bg-[#0090D4] text-white font-semibold rounded-md hover:bg-[#1b7a72] transition-colors duration-300">
                 Masuk
             </a>
         </div>

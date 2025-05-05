@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @include('admin.partial.link')
-    <title>Pengumuman | Guru TK Pintar</title>
+    <title>Tambah Pengumuman | Guru TK Pintar</title>
 </head>
 
 <body class="text-blueGray-700 antialiased">
@@ -26,7 +26,7 @@
                     <!-- Form 1: Informasi Pengumuman -->
                     <div>
                         <label for="pengumuman" class="block text-sm font-medium text-gray-700 mb-2">Informasi
-                            Pengumuman</label>
+                            Tambah Pengumuman</label>
                         <textarea id="pengumuman" name="pengumuman" rows="6"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                             placeholder="Tulis isi pengumuman di sini..."></textarea>

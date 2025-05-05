@@ -9,6 +9,7 @@
     <link rel="icon" type="icon" href="/img/logo tutwuri.png">
     <title>TK Pertiwi Grojogan</title>
 </head>
+<script src="//unpkg.com/alpinejs" defer></script>
 <body class="bg-gray-100 ">
 
  @include('landing.partial.navbar')
@@ -25,14 +26,14 @@
             class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-0 z-0" />
     </div>
 
-    <!-- Arrows (unchanged) -->
+  
     <button id="prev"
-        class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-2 rounded-full shadow-md z-20">
-        <i class="fas fa-chevron-left text-xl"></i>
+        class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
+        <i class="fas fa-chevron-left text-lg md:text-xl"></i>
     </button>
     <button id="next"
-        class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-2 rounded-full shadow-md z-20">
-        <i class="fas fa-chevron-right text-xl"></i>
+        class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
+        <i class="fas fa-chevron-right text-lg md:text-xl"></i>
     </button>
 </section>
 
@@ -40,70 +41,96 @@
 <!-- sekilas -->
 <section id="sekilas" class="sekilas min-h-screen bg-[#0090D4]">
     <div class="container mx-auto pt-8 px-4">
-        <h1 class="font-bold text-[20px] md:text-[32px] text-white flex items-center justify-center text-center">
+        <h1 class="font-bold text-[20px] md:text-[32px] text-white flex items-center justify-center text-center"
+            data-aos="fade-down" data-aos-duration="800">
             PENGENALAN
         </h1>
-        <p class="font-regular text-[14px] md:text-[18px] text-center text-white flex justify-center px-6 md:px-20">
+        <p class="font-regular text-[14px] md:text-[18px] text-center text-white flex justify-center px-6 md:px-20"
+            data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
             TK Pertiwi Grojogan adalah suatu sarana pembelajaran awal anak, yang dimana anak-anak dapat mengembangkan
             kemampuan di berbagai bidang dan membantu karakter anak yang berakhlak dan berbudi luhur.
         </p>
 
-        <h1 class="font-bold text-[20px] md:text-[32px] text-white flex items-center justify-center text-center mt-4">
+        <h1 class="font-bold text-[20px] md:text-[32px] text-white flex items-center justify-center text-center mt-4"
+            data-aos="fade-down" data-aos-duration="800" data-aos-delay="400">
             TUJUAN
         </h1>
-        <p class="font-regular text-[14px] md:text-[18px] text-center text-white flex justify-center px-6 md:px-10">
+        <p class="font-regular text-[14px] md:text-[18px] text-center text-white flex justify-center px-6 md:px-10"
+            data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
             Pembelajaran di TK Pertiwi Grojogan memiliki beberapa tujuan
         </p>
 
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-2 p-4 md:p-8">
-            <div class="bg-white p-5 rounded-lg shadow-lg text-center">
-                <img src="/img/t-1.png" alt=""
-                    class="w-full aspect-[16/9] object-cover rounded-md border-b-2 border-[#0090D4]">
-                <p class="mt-3 text-black font-medium text-sm md:text-base">
-                    Terbentuknya peserta didik yang berakhlak mulia dan berbudi pekerti yang luhur
-                </p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-lg text-center">
-                <img src="/img/t-2.png" alt=""
-                    class="w-full aspect-[16/9] object-cover rounded-md border-b-2 border-[#0090D4]">
-                <p class="mt-3 text-black font-medium text-sm md:text-base">
-                    Terwujudnya siswa yang cerdas berkualitas dan berkembang sesuai usianya
-                </p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-lg text-center">
-                <img src="/img/t-3.png" alt=""
-                    class="w-full aspect-[16/9] object-cover rounded-md border-b-2 border-[#0090D4]">
-                <p class="mt-3 text-black font-medium text-sm md:text-base">
-                    Menjadikan anak lebih bisa mengenali bakat diri sendiri serta berdaya saing dengan sportif
-                </p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-lg text-center">
-                <img src="" alt="" class="w-full h-40 object-cover rounded-md border-b-2 border-[#0090D4]">
-                <p class="mt-3 text-black font-medium text-sm md:text-base">
-                    Menjadikan anak lebih mandiri dan tidak tergantung pada orang lain
-                </p>
-            </div>
+    <!-- Card 1 -->
+    <div class="group bg-white p-5 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300" 
+         data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
+        <div class="overflow-hidden rounded-md border-b-2 border-[#0090D4]">
+            <img src="/img/t-1.png" alt=""
+                class="w-full aspect-[16/9] object-cover ">
+        </div>
+        <p class="mt-3 text-black font-medium text-sm md:text-base ">
+            Terbentuknya peserta didik yang berakhlak mulia dan berbudi pekerti yang luhur
+        </p>
+    </div>
+    
+    <!-- Card 2 -->
+    <div class="group bg-white p-5 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300" 
+         data-aos="fade-up" data-aos-duration="800" data-aos-delay="900">
+        <div class="overflow-hidden rounded-md border-b-2 border-[#0090D4]">
+            <img src="/img/t-2.png" alt=""
+                class="w-full aspect-[16/9] object-cover ">
+        </div>
+        <p class="mt-3 text-black font-medium text-sm md:text-base ">
+            Terwujudnya siswa yang cerdas berkualitas dan berkembang sesuai usianya
+        </p>
+    </div>
+    
+    <!-- Card 3 -->
+    <div class="group bg-white p-5 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300" 
+         data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
+        <div class="overflow-hidden rounded-md border-b-2 border-[#0090D4]">
+            <img src="/img/t-3.png" alt=""
+                class="w-full aspect-[16/9] object-cover ">
+        </div>
+        <p class="mt-3 text-black font-medium text-sm md:text-base ">
+            Menjadikan anak lebih bisa mengenali bakat diri sendiri serta berdaya saing dengan sportif
+        </p>
+    </div>
+    
+    <!-- Card 4 -->
+    <div class="group bg-white p-5 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300" 
+         data-aos="fade-up" data-aos-duration="800" data-aos-delay="1100">
+        <div class="overflow-hidden rounded-md border-b-2 border-[#0090D4]">
+            <img src="/img/t-4.jpg" alt=""
+                class="w-full aspect-[16/9] object-cover ">
+        </div>
+        <p class="mt-3 text-black font-medium text-sm md:text-base ">
+            Menjadikan anak lebih mandiri dan tidak tergantung pada orang lain
+        </p>
+    </div>
+</div>
         </div>
     </div>
 </section>
 
-
 <!-- visi - misi -->
 <section id="visi-misi" class="bg-white pt-8 px-4 pb-8">
     <div class="max-w-7xl mx-auto text-center">
-       <h1 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center">
+        <h1 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center"
+            data-aos="fade-down" data-aos-duration="600">
             VISI-MISI
         </h1>
 
-        <p class="font-regular text-sm md:text-[18px] text-black mb-10 w-full max-w-8xl">
+        <p class="font-regular text-sm md:text-[18px] text-black mb-10 w-full max-w-8xl" data-aos="fade-up"
+            data-aos-duration="600" data-aos-delay="200">
             Dalam upaya mendukung tumbuh kembang anak secara optimal, TK Pertiwi memiliki visi dan misi yang dirancang
             untuk menciptakan lingkungan belajar yang aman, kreatif, dan inspiratif. Berikut adalah visi dan misi kami
-            sebagai
-            landasan utama dalam memberikan pendidikan terbaik bagi anak-anak.
+            sebagai landasan utama dalam memberikan pendidikan terbaik bagi anak-anak.
         </p>
 
         <!-- Visi -->
-        <div class="bg-white p-5 rounded-lg shadow-lg shadow-[#0090D4] mt-8 mb-10 text-left">
+        <div class="bg-white p-5 rounded-lg shadow-md shadow-[#0090D4] mt-8 mb-10 text-left" data-aos="fade-right"
+            data-aos-duration="600" data-aos-delay="400">
             <h3 class="font-bold text-sm md:text-[25px] text-[#0090D4] mb-3">Visi:</h3>
             <p class="text-sm md:text-[18px] text-black">
                 Terwujudnya Siswa Yang Berakhlak Mulia, Cerdas, Kreatif Dan Mandiri
@@ -111,7 +138,8 @@
         </div>
 
         <!-- Misi -->
-        <div class="bg-white p-5 rounded-lg shadow-lg shadow-[#0090D4] text-left">
+        <div class="bg-white p-5 rounded-lg shadow-md shadow-[#0090D4] text-left" data-aos="fade-left"
+            data-aos-duration="600" data-aos-delay="600">
             <h3 class="font-bold text-sm md:text-[25px] text-[#0090D4] mb-3">Misi</h3>
             <ul class="text-black text-sm md:text-[18px] list-decimal pl-6 space-y-2">
                 <li>Mewujudkan Pendidikan Agama dan Budi Pekerti Secara Terprogram</li>
@@ -123,46 +151,172 @@
     </div>
 </section>
 
-
-
 <!-- artikel -->
-<section id="artikel" class="artikel min-h-screen">
-  <div class="max-w-7xl mx-auto text-center pt-8 px-4">
-    <h2 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center">ARTIKEL</h2>
-    <p class="font-regular text-sm md:text-[18px] text-black mb-10 w-full max-w-8xl">
-      Temukan hal menarik seputar TK Pertiwi Grojogan mulai dari pembelajaran yang efektif hingga kegiatan kreatif untuk anak anak. 
-      Mari bersama-sama menciptakan fondasi pendidikan yang kuat dan menyenangkan bagi anak-anak kita!
-    </p>
-
-   <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
-  <!-- Card -->
-  <div class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col">
-    <div class="w-full px-4 pt-4 pb-2">
-      <div class="aspect-[16/9] w-full">
-        <img src="img/artikel.png" alt="Artikel 1" class="w-full h-full object-cover rounded-lg border-b-2 border-[#0090D4]">
-      </div>
-    </div>
-  
-    <div class="p-4 flex flex-col flex-grow justify-between">
-      <div class="text-left">
-        <h3 class="text-sm sm:text-base md:text-lg font-semibold text-[#0090D4] mb-2">
-          Belajar Sambil Bermain
-        </h3>
-        <p class="text-xs sm:text-sm text-gray-700 mb-4">
-          Metode belajar interaktif untuk meningkatkan kreativitas anak usia dini.
+<section id="artikel" class="artikel min-h-screen py-8">
+    <div class="max-w-7xl mx-auto text-center px-4">
+        <h2 class="font-bold text-[20px] md:text-[32px] text-[#0090D4]" data-aos="fade-down" data-aos-duration="600">ARTIKEL</h2>
+        <p class="font-regular text-sm md:text-[18px] text-black mb-10 mx-auto max-w-4xl"  data-aos="fade-up"
+            data-aos-duration="600" data-aos-delay="200">
+            Temukan hal menarik seputar TK Pertiwi Grojogan mulai dari pembelajaran yang efektif hingga kegiatan kreatif
+            untuk anak-anak.
+            Mari bersama-sama menciptakan fondasi pendidikan yang kuat dan menyenangkan bagi anak-anak kita!
         </p>
-      </div>
-      <div class="flex justify-center">
-        <a href="#"
-          class="bg-[#0090D4] text-white px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-lg hover:bg-[#007bb3]">
-          Selengkapnya
-        </a>
-      </div>
-    </div>
-  </div>      
-  </div>
-</section>
 
+        @if($articles->count() > 0)
+            <div x-data="{ showAll: window.innerWidth >= 1024 ? false : true }" x-init="() => {
+                    window.addEventListener('resize', () => {
+                        showAll = window.innerWidth < 1024;
+                    });
+                }">
+                <!-- Tampilan Mobile (semua artikel) -->
+                <div class="lg:hidden grid grid-cols-2 gap-4">
+                    @foreach($articles as $article)
+                        <div
+                            class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                            <!-- Gambar Artikel -->
+                            <div class="w-full px-4 pt-4 pb-2">
+                                <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
+                                    @if($article->image && $article->image->url)
+                                        <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
+                                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                    @else
+                                        <img src="{{ asset('img/default-article.jpg') }}" alt="Default article image"
+                                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Konten Artikel -->
+                            <div class="p-4 flex flex-col flex-grow">
+                                <div class="text-left">
+                                    <h3 class="text-xs font-semibold text-[#0090D4] mb-2 line-clamp-2">
+                                        {{ $article->title }}
+                                    </h3>
+                                    <p class="text-xs text-gray-700 mb-4 line-clamp-2">
+                                        {{ Str::limit(strip_tags($article->content), 100) }}
+                                    </p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="{{ route('landing.article.detail', $article->id) }}"
+                                        class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-3 py-1 text-xs rounded-lg transition-colors duration-300">
+                                        Selengkapnya
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Tampilan Desktop (dengan toggle) -->
+                <div class="hidden lg:block">
+                    <!-- Artikel yang ditampilkan awal (3 pertama) -->
+                    <div class="grid grid-cols-3 gap-6">
+                        @foreach($articles->take(3) as $article)
+                            <div
+                                class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                                <!-- Gambar Artikel -->
+                                <div class="w-full px-4 pt-4 pb-2">
+                                    <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
+                                        @if($article->image && $article->image->url)
+                                            <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
+                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                        @else
+                                            <img src="{{ asset('img/default-article.jpg') }}" alt="Default article image"
+                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Konten Artikel -->
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <div class="text-left">
+                                        <h3 class="text-sm md:text-base font-semibold text-[#0090D4] mb-2 line-clamp-2">
+                                            {{ $article->title }}
+                                        </h3>
+                                        <p class="text-sm text-gray-700 mb-4 line-clamp-3">
+                                            {{ Str::limit(strip_tags($article->content), 100) }}
+                                        </p>
+                                    </div>
+                                    <div class="mt-auto">
+                                        <a href="{{ route('landing.article.detail', $article->id) }}"
+                                            class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-4 py-2 text-sm rounded-lg transition-colors duration-300">
+                                            Selengkapnya
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Artikel tambahan (sembunyi awal) -->
+                    <div x-show="showAll" class="grid grid-cols-3 gap-6 mt-6">
+                        @foreach($articles->slice(3) as $article)
+                            <div
+                                class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                                <!-- Gambar Artikel -->
+                                <div class="w-full px-4 pt-4 pb-2">
+                                    <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
+                                        @if($article->image && $article->image->url)
+                                            <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
+                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                        @else
+                                            <img src="{{ asset('img/default-article.jpg') }}" alt="Default article image"
+                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Konten Artikel -->
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <div class="text-left">
+                                        <h3 class="text-sm md:text-base font-semibold text-[#0090D4] mb-2 line-clamp-2">
+                                            {{ $article->title }}
+                                        </h3>
+                                        <p class="text-sm text-gray-700 mb-4 line-clamp-3">
+                                            {{ Str::limit(strip_tags($article->content), 100) }}
+                                        </p>
+                                    </div>
+                                    <div class="mt-auto">
+                                        <a href="{{ route('landing.article.detail', $article->id) }}"
+                                            class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-4 py-2 text-sm rounded-lg transition-colors duration-300">
+                                            Selengkapnya
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Tombol Tampilkan Lebih Banyak (Desktop saja) -->
+                    @if($articles->count() > 3)
+                        <div class="mt-8 text-center">
+                            <button @click="showAll = !showAll"
+                                class="bg-[#0090D4] hover:bg-[#007bb3] text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300">
+                                <span x-text="showAll ? 'Sembunyikan' : 'Tampilkan Lebih Banyak'"></span>
+                                <svg x-show="!showAll" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-1"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <svg x-show="showAll" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-1"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @else
+            <div class="text-center py-10">
+                <p class="text-gray-500">Belum ada artikel yang tersedia.</p>
+            </div>
+        @endif
+    </div>
+</section>
 <footer class="bg-white py-4">
     <div class="max-w-7xl mx-auto px-4">
         <!-- Container Maps dengan border top-bottom -->
