@@ -53,9 +53,9 @@
       <ul class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
           
-          <a href="{{ url('/dashboard') }}" class="text-xs uppercase py-3 font-bold block 
-            {{ request()->is('dashboard') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
-            <i class="fas fa-tv mr-2 text-sm {{ request()->is('dashboard') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
+          <a href="{{ route('admin.dashboard') }}" class="text-xs uppercase py-3 font-bold block 
+            {{ request()->is('admin/dashboard') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
+            <i class="fas fa-tv mr-2 text-sm {{ request()->is('admin/dashboard') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
             Dashboard
           </a>
         </li>
@@ -86,37 +86,16 @@
             Pembayaran
           </a>
         </li>
-        
-      </ul>
-
-      <!-- Divider -->
-      <hr class="my-4 md:min-w-full" />
-
-      <!-- Auth Section -->
-      <h6 class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-        Auth Layout Pages
-      </h6>
-      <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
         <li class="items-center">
-  <form method="POST" action="{{ route('logout') }}" id="logout-form">
-    @csrf
-    <button type="submit"
-      class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block w-full text-left">
-      <i class="fas fa-fingerprint text-blueGray-300 mr-2 text-sm"></i>
-      Keluar
-    </button>
-  </form>
-  
-  
-
-        <li class="items-center">
-          <a href="{{ url('/profile') }}" class="text-xs uppercase py-3 font-bold block 
-            {{ request()->is('profile') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
-            <i class="fas fa-newspaper mr-2 text-sm {{ request()->is('profile') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
+        <a href="{{ route('admin.profile') }}" class="text-xs uppercase py-3 font-bold block 
+            {{ request()->is('admin/profile') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
+            <i class="fas fa-user mr-2 text-sm {{ request()->is('user') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
             Profile
           </a>
         </li>
       </ul>
+        
+      
 
       
     </div>

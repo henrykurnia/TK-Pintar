@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('landing.partial.link')
+    <link rel="icon" type="icon" href="/img/logo tutwuri.png">
     <title>{{ $article->title }} | TK Pertiwi Grojogan</title>
 </head>
 <style>

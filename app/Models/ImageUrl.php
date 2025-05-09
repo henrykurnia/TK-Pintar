@@ -18,4 +18,6 @@ class ImageUrl extends Model
     {
         return $this->morphTo();
     }
+
+    
 }

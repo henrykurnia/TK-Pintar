@@ -26,7 +26,7 @@
 </head>
 
 <body class="bg-cover bg-center min-h-screen flex items-center justify-center"
-  style="background-image: url('/img/bg-login.png'); position: relative;">
+  style="background-image: url('/img/bg-login1.png'); position: relative;">
 
   <!-- Back Button - Made smaller for mobile -->
   <a href="{{ url('/?_fragment=hero') }}"

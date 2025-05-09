@@ -9,4 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasFactory;
+
+    public function imageUrls()
+    {
+        return $this->morphMany(ImageUrl::class, 'owner');
+    }
 }

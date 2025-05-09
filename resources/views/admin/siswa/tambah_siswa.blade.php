@@ -122,10 +122,6 @@
           class="w-full md:w-48 py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-400 text-sm"
           required>
           <option value="" disabled selected>Pilih Kelas</option>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
           @foreach($classes as $class)
         <option value="{{ $class->id }}">{{ $class->name }}</option>
       @endforeach

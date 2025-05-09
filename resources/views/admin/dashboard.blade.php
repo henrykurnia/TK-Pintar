@@ -8,6 +8,9 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link rel="icon" type="icon" href="/img/logo tutwuri.png">
+
   @include('admin.partial.link')
   <title>Dashboard | Admin TK Pintar</title>
 </head>
@@ -36,14 +39,17 @@
             </a>
 
             <!--  User Info -->
-            <div class="flex items-center gap-3 text-white">
-              <img src="{{ asset('images/user.jpg') }}" alt="User Photo"
-                class="fotoProfil w-10 h-10 rounded-full object-cover shadow" />
-              <div class="leading-tight text-right">
-                <p class="usernametext-sm font-semibold">Gus Ris</p>
-                <p class="jabatan text-xs">Admin</p>
-              </div>
-            </div>
+           <div class="flex items-center justify-end gap-3 text-white">
+  <div class="leading-tight text-right">
+    <p class="email text-sm font-semibold">{{ Auth::user()->email }}</p>
+    <p class="jabatan text-xs">{{ Auth::user()->role ?? 'Admin' }}</p>
+  </div>
+  @php
+$profileImage = Auth::user()->imageUrls->where('jenis', 'teacher')->sortByDesc('created_at')->first();
+$imageUrl = $profileImage ? asset($profileImage->url) . '?v=' . time() : asset('img/pp.png');
+  @endphp
+  <img src="{{ $imageUrl }}" alt="User Photo" class="fotoProfil w-10 h-10 rounded-full object-cover shadow" />
+</div>
           </div>
         </div>
 
@@ -61,9 +67,7 @@
                         <h5 class="text-blueGray-400 uppercase font-bold text-xs">
                           Jumlah Siswa
                         </h5>
-                        <span class="font-semibold text-xl text-blueGray-700">
-                          350,897
-                        </span>
+                        
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
                         <div
@@ -72,12 +76,7 @@
                         </div>
                       </div>
                     </div>
-                    <p class="text-sm text-blueGray-400 mt-4">
-                      <span class="text-emerald-500 mr-2">
-                        <i class="fas fa-arrow-up"></i> 3.48%
-                      </span>
-                      <span class="whitespace-nowrap"> Since last month </span>
-                    </p>
+                  
                   </div>
                 </div>
               </div>
@@ -90,7 +89,7 @@
                         <h5 class="text-blueGray-400 uppercase font-bold text-xs">
                           Jumlah Guru & Staff
                         </h5>
-                        <span class="font-semibold text-xl text-blueGray-700">2,356</span>
+                       
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
                         <div
@@ -99,11 +98,8 @@
                         </div>
                       </div>
                     </div>
-                    <p class="text-sm text-blueGray-400 mt-4">
-                      <span class="text-red-500 mr-2">
-                        <i class="fas fa-arrow-down"></i> 3.48%
-                      </span>
-                      <span class="whitespace-nowrap"> Since last week </span>
+               
+                      
                     </p>
                   </div>
                 </div>
@@ -117,7 +113,7 @@
                         <h5 class="text-blueGray-400 uppercase font-bold text-xs">
                           Pembayaran Lunas
                         </h5>
-                        <span class="font-semibold text-xl text-blueGray-700">924</span>
+                       
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
                         <div
@@ -126,11 +122,8 @@
                         </div>
                       </div>
                     </div>
-                    <p class="text-sm text-blueGray-400 mt-4">
-                      <span class="text-orange-500 mr-2">
-                        <i class="fas fa-arrow-down"></i> 1.10%
-                      </span>
-                      <span class="whitespace-nowrap"> Since yesterday </span>
+                    
+                     
                     </p>
                   </div>
                 </div>
@@ -144,7 +137,7 @@
                         <h5 class="text-blueGray-400 uppercase font-bold text-xs">
                           Pembayaran Belum Lunas
                         </h5>
-                        <span class="font-semibold text-xl text-blueGray-700">49,65%</span>
+                      
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
                         <div
@@ -153,11 +146,9 @@
                         </div>
                       </div>
                     </div>
-                    <p class="text-sm text-blueGray-400 mt-4">
-                      <span class="text-emerald-500 mr-2">
-                        <i class="fas fa-arrow-up"></i> 12%
-                      </span>
-                      <span class="whitespace-nowrap"> Since last month </span>
+                  
+                      
+                      
                     </p>
                   </div>
                 </div>
@@ -167,105 +158,100 @@
         </div>
       </div>
 
-      <!-- Content bawah -->
-      <div class="flex flex-wrap mt-6" x-data="{ showUploadForm: false }">
-        <!-- Hero Section -->
-        <div class="w-full lg:w-6/12 px-4 mb-6">
-          <div class="bg-white shadow-lg rounded p-6">
-            <div class="flex justify-between items-center mb-4">
-              <h2 class="text-xl font-semibold text-blueGray-700">
-                <span x-show="!showUploadForm">Hero Section</span>
-                <span x-show="showUploadForm">Upload Foto</span>
-              </h2>
-              <template x-if="!showUploadForm">
-                <button
-                  class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 text-sm w-9 h-9 flex items-center justify-center"
-                  title="Tambah" @click="showUploadForm = true">
-                  <i class="fas fa-plus"></i>
+     <div class="flex flex-wrap mt-6">
+  <!-- Hero Section -->
+  <div class="w-full px-4 mb-6">
+    <div class="bg-white shadow-lg rounded-lg p-6" x-data="{ showUploadForm: false, imagePreview: null }">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold text-gray-800">
+          <span x-show="!showUploadForm">Hero Section</span>
+          <span x-show="showUploadForm">Upload Foto</span>
+        </h2>
+
+        @if(count($heroImages) < 4)
+          <template x-if="!showUploadForm">
+            <button
+              class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 text-sm w-9 h-9 flex items-center justify-center"
+              title="Tambah"
+              @click="showUploadForm = true">
+              <i class="fas fa-plus"></i>
+            </button>
+          </template>
+        @endif
+      </div>
+
+      <!-- Image Grid Display -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6" x-show="!showUploadForm">
+        @forelse ($heroImages as $image)
+          <div class="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+            <img src="{{ asset($image->image_path) }}" 
+                 alt="Hero Image"
+                 class="w-full h-40 object-cover">
+            <div class="p-3">
+              <p class="text-sm text-gray-500 mb-2">
+                {{ $image->created_at->format('d M Y') }}
+              </p>
+              <form action="{{ route('admin.hero.delete', $image->id) }}" method="POST"
+                    onsubmit="return confirm('Yakin hapus gambar ini?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-red-500 hover:text-red-700 text-sm">
+                  <i class="fas fa-trash mr-1"></i> Hapus
                 </button>
-              </template>
-            </div>
-
-            <div class="overflow-x-auto" x-show="!showUploadForm">
-              <table class="min-w-full text-sm text-left">
-                <thead class="border-b font-semibold text-blueGray-600">
-                  <tr>
-                    <th class="py-2 px-4">Foto</th>
-                    <th class="py-2 px-4">Tanggal Upload</th>
-                    <th class="py-2 px-4">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b hover:bg-blueGray-50">
-                    <td class="py-2 px-4">
-                      <img src="https://via.placeholder.com/80" alt="Foto" class="w-16 h-16 object-cover rounded" />
-                    </td>
-                    <td class="py-2 px-4">05 Apr 2025</td>
-                    <td class="py-2 px-4 space-x-2">
-                      <button class="text-yellow-500 hover:underline">Edit</button>
-                      <button class="text-red-500 hover:underline">Hapus</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div x-show="showUploadForm" x-transition>
-              <form>
-                <div class="mb-4">
-                  <label class="block text-sm font-medium mb-2">Pilih Foto</label>
-                  <input type="file" class="block w-full text-sm border border-gray-300 rounded px-3 py-2" />
-                </div>
-                <div class="flex justify-end space-x-2">
-                  <button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded"
-                    @click="showUploadForm = false">
-                    Batal
-                  </button>
-                  <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                    Simpan
-                  </button>
-                </div>
               </form>
             </div>
           </div>
-        </div>
-
-        <!-- Artikel -->
-        <div class="w-full lg:w-6/12 px-4 mb-6">
-          <div class="bg-white shadow-lg rounded p-6">
-            <h2 class="text-xl font-semibold text-blueGray-700 mb-4">Artikel terbaru</h2>
-            <div class="overflow-x-auto">
-              <table class="min-w-full text-sm text-left">
-                <thead class="border-b font-semibold text-blueGray-600">
-                  <tr>
-                    <th class="py-2 px-4">Judul</th>
-                    <th class="py-2 px-4">Tanggal</th>
-                    <th class="py-2 px-4">Gambar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b hover:bg-blueGray-50">
-                    <td class="py-2 px-4">Tips Menjaga Kesehatan</td>
-                    <td class="py-2 px-4">01 Apr 2025</td>
-                    <td class="py-2 px-4">
-                      <button class="text-blue-500 hover:underline">Lihat</button>
-                    </td>
-                  </tr>
-                  <tr class="border-b hover:bg-blueGray-50">
-                    <td class="py-2 px-4">Cara Hemat di Bulan Ramadan</td>
-                    <td class="py-2 px-4">30 Mar 2025</td>
-                    <td class="py-2 px-4">
-                      <button class="text-blue-500 hover:underline">Lihat</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        @empty
+          <div class="col-span-full text-center py-8 text-gray-400">
+            Belum ada foto hero.
           </div>
-        </div>
+        @endforelse
+      </div>
+
+      <!-- Upload Form -->
+      <div x-show="showUploadForm" x-transition class="border-t pt-4">
+        @if(count($heroImages) >= 4)
+          <div class="bg-red-100 text-red-700 px-4 py-3 rounded mb-4">
+            Maksimal 4 foto diperbolehkan. Hapus salah satu untuk menambah.
+          </div>
+        @else
+          <form action="{{ route('admin.hero.upload') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Foto</label>
+              <input type="file" name="image" required accept="image/*"
+                     @change="const file = $event.target.files[0]; if(file) { const reader = new FileReader(); reader.onload = e => imagePreview = e.target.result; reader.readAsDataURL(file); }"
+                     class="block w-full text-sm text-gray-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-md file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-blue-700
+                            hover:file:bg-blue-100" />
+            </div>
+
+            <!-- Preview -->
+            <div x-show="imagePreview" class="mb-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Preview:</label>
+              <img :src="imagePreview" alt="Preview" class="w-full max-w-xs h-auto object-cover rounded shadow" />
+            </div>
+
+            <div class="flex justify-end space-x-2">
+              <button type="button"
+                      class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded text-sm"
+                      @click="showUploadForm = false; imagePreview = null;">
+                Batal
+              </button>
+              <button type="submit"
+                      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                Simpan
+              </button>
+            </div>
+          </form>
+        @endif
       </div>
     </div>
   </div>
+</div>
   @include('admin.partial.script')
 </body>
 

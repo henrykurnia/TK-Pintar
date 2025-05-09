@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @include('landing.partial.link')
     <link rel="icon" type="icon" href="/img/logo tutwuri.png">
-    <title>Berkas Pendaftaran</title>
+    <title>Berkas Pendaftaran | TK Pertiwi Grojogan</title>
     <style>
         .custom-container {
             max-width: 640px;
@@ -133,7 +133,7 @@
 </head>
 
 <body class="bg-cover bg-center min-h-screen flex items-center justify-center py-4 md:py-8"
-    style="background-image: url('/img/bg-login.png');">
+    style="background-image: url('/img/bg-login1.png');">
     <div class="bg-white p-4 md:p-8 rounded-xl md:rounded-2xl shadow-md custom-container">
         <h2 class="text-black text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Berkas Pendaftaran Peserta Didik
             Baru</h2>

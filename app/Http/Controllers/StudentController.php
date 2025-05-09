@@ -53,9 +53,10 @@ class StudentController extends Controller
             'parent_work' => 'nullable|string|max:100',
             'parent_phone_number' => 'nullable|string|max:20',
             'parent_address' => 'nullable|string',
-            'class_id' => 'required|in:A1,A2,B1,B2'
+            'class_id' => 'required|exists:classes,id'
         ]);
 
+       
         // Create parent first
         $parent = Parents::create([
             'name' => $validated['parent_name'],

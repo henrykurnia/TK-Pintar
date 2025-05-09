@@ -97,73 +97,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<section id="hero" class="relative w-full md:h-screen aspect-[16/9] overflow-hidden">
-    <div id="slides" class="w-full h-full relative">
-        @if(isset($heroSections) && $heroSections->count() > 0)
-            @foreach($heroSections as $index => $hero)
-                <img src="{{ $hero->image_url }}"
-                    class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}"
-                    alt="Hero Image {{ $index + 1 }}" />
-            @endforeach
-        @else
-            <!-- Default fallback images if no hero sections are uploaded -->
-            <img src="{{ asset('img/hero-img.png') }}"
-                class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-100 z-10"
-                alt="Default Hero Image 1" />
-        @endif
-    </div>
-
-    <!-- Always show buttons but control functionality with JavaScript -->
-    <button id="prev"
-        class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20 {{ !isset($heroSections) || $heroSections->count() <= 1 ? 'opacity-50 cursor-not-allowed' : '' }}">
-        <i class="fas fa-chevron-left text-lg md:text-xl"></i>
-    </button>
-    <button id="next"
-        class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20 {{ !isset($heroSections) || $heroSections->count() <= 1 ? 'opacity-50 cursor-not-allowed' : '' }}">
-        <i class="fas fa-chevron-right text-lg md:text-xl"></i>
-    </button>
-</section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prev');
-        const nextBtn = document.getElementById('next');
-        let currentSlide = 0;
-        let slideInterval;
+    // Tetap sama seperti sebelumnya
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev');
+            const nextBtn = document.getElementById('next');
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.remove('opacity-100', 'z-10');
-                slide.classList.add('opacity-0', 'z-0');
-                if (i === index) {
-                    slide.classList.add('opacity-100', 'z-10');
-                    slide.classList.remove('opacity-0', 'z-0');
+            if (slides.length > 1) {
+                let currentSlide = 0;
+
+                function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                        slide.style.opacity = i === index ? '1' : '0';
+                        slide.style.zIndex = i === index ? '10' : '0';
+                    });
                 }
-            });
-        }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-            resetInterval();
-        }
+                prevBtn?.addEventListener('click', () => {
+                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    showSlide(currentSlide);
+                });
 
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(currentSlide);
-            resetInterval();
-        }
+                nextBtn?.addEventListener('click', () => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                });
 
-        function resetInterval() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 5000);
-        }
-
-        if (slides.length > 1) {
-            prevBtn?.addEventListener('click', prevSlide);
-            nextBtn?.addEventListener('click', nextSlide);
-            slideInterval = setInterval(nextSlide, 5000);
-        }
-    });
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                }, 5000);
+            }
+        });
 </script>

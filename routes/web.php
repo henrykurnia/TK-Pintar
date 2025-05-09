@@ -7,7 +7,8 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\StudentController;
-use App\Http\Controllers\HeroSectionController;
+use App\Http\Controllers\ProfileController;
+
 
 
 // Authentication Routes
@@ -19,9 +20,10 @@ Route::middleware('guest')->group(function () {
 // Protected Routes (hanya untuk yang sudah login)
 Route::middleware('auth')->group(function () {
     // Dashboard Route
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])
-        ->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+    Route::post('/admin/hero/upload', [AdminController::class, 'uploadHero'])->name('admin.hero.upload');
+    Route::delete('/admin/hero/{id}', [AdminController::class, 'deleteHero'])->name('admin.hero.delete');
     // Logout Route
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
@@ -80,9 +82,9 @@ Route::get('/berkas', function () {
 
 
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
+// Route::get('/dashboard', function () {
+//     return view('admin.dashboard');
+// });
 
 // Route::get('/siswa', function () {
 //     return view('admin.siswa.index');
@@ -112,8 +114,17 @@ Route::get('/dashboard', function () {
 //     return view('landing.login');
 // });
 
-Route::get('/profile', function () {
-    return view('admin.profile');
+// Route::get('/user', function () {
+//     return view('admin.user');
+// });
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    // ... other admin routes
+
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('admin.profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('admin.profile.update');
 });
 
 // guru

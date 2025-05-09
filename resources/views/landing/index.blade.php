@@ -14,27 +14,32 @@
 
  @include('landing.partial.navbar')
 
+@php
+$heroController = new \App\Http\Controllers\HeroController();
+$heroImages = $heroController->getHeroImages();
+@endphp
+
 <section id="hero" class="relative w-full md:h-screen aspect-[16/9] overflow-hidden">
     <div id="slides" class="w-full h-full relative">
-        <img src="img/hero-img.png"
-            class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-100 z-10" />
-
-        <img src="img/bg-login.png"
-            class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-0 z-0" />
-
-        <img src="img/bg-login.png"
-            class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-0 z-0" />
+        @forelse($heroImages as $index => $image)
+            <img src="{{ asset($image->image_path) }}"
+                class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }} z-{{ $index === 0 ? '10' : '0' }}" />
+        @empty
+            <img src="{{ asset('img/default-hero.jpg') }}"
+                class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-100 z-10" />
+        @endforelse
     </div>
 
-  
-    <button id="prev"
-        class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
-        <i class="fas fa-chevron-left text-lg md:text-xl"></i>
-    </button>
-    <button id="next"
-        class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
-        <i class="fas fa-chevron-right text-lg md:text-xl"></i>
-    </button>
+    @if(count($heroImages) > 1)
+        <button id="prev"
+            class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
+            <i class="fas fa-chevron-left text-lg md:text-xl"></i>
+        </button>
+        <button id="next"
+            class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
+            <i class="fas fa-chevron-right text-lg md:text-xl"></i>
+        </button>
+    @endif
 </section>
 
 
@@ -168,13 +173,12 @@
                         showAll = window.innerWidth < 1024;
                     });
                 }">
-                <!-- Tampilan Mobile (semua artikel) -->
                 <div class="lg:hidden grid grid-cols-2 gap-4">
                     @foreach($articles as $article)
-                        <div
+                        <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
                             class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
                             <!-- Gambar Artikel -->
-                            <div class="w-full px-4 pt-4 pb-2">
+                            <div class="w-full px-4 pt-4 pb-2" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 + 50 }}">
                                 <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
                                     @if($article->image && $article->image->url)
                                         <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
@@ -188,7 +192,7 @@
 
                             <!-- Konten Artikel -->
                             <div class="p-4 flex flex-col flex-grow">
-                                <div class="text-left">
+                                <div class="text-left" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 + 100 }}">
                                     <h3 class="text-xs font-semibold text-[#0090D4] mb-2 line-clamp-2">
                                         {{ $article->title }}
                                     </h3>
@@ -196,7 +200,7 @@
                                         {{ Str::limit(strip_tags($article->content), 100) }}
                                     </p>
                                 </div>
-                                <div class="mt-auto">
+                                <div class="mt-auto" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 + 150 }}">
                                     <a href="{{ route('landing.article.detail', $article->id) }}"
                                         class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-3 py-1 text-xs rounded-lg transition-colors duration-300">
                                         Selengkapnya
@@ -208,99 +212,100 @@
                 </div>
 
                 <!-- Tampilan Desktop (dengan toggle) -->
-                <div class="hidden lg:block">
-                    <!-- Artikel yang ditampilkan awal (3 pertama) -->
-                    <div class="grid grid-cols-3 gap-6">
-                        @foreach($articles->take(3) as $article)
-                            <div
-                                class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
-                                <!-- Gambar Artikel -->
-                                <div class="w-full px-4 pt-4 pb-2">
-                                    <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
-                                        @if($article->image && $article->image->url)
-                                            <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
-                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
-                                        @else
-                                            <img src="{{ asset('img/default-article.jpg') }}" alt="Default article image"
-                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <!-- Konten Artikel -->
-                                <div class="p-4 flex flex-col flex-grow">
-                                    <div class="text-left">
-                                        <h3 class="text-sm md:text-base font-semibold text-[#0090D4] mb-2 line-clamp-2">
-                                            {{ $article->title }}
-                                        </h3>
-                                        <p class="text-sm text-gray-700 mb-4 line-clamp-3">
-                                            {{ Str::limit(strip_tags($article->content), 100) }}
-                                        </p>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <a href="{{ route('landing.article.detail', $article->id) }}"
-                                            class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-4 py-2 text-sm rounded-lg transition-colors duration-300">
-                                            Selengkapnya
-                                        </a>
-                                    </div>
+            <!-- Artikel yang ditampilkan awal (3 pertama) -->
+            <div class="hidden lg:block">
+                <div class="grid grid-cols-3 gap-6">
+                    @foreach($articles->take(3) as $article)
+                        <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}"
+                            class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                            <!-- Gambar Artikel -->
+                            <div class="w-full px-4 pt-4 pb-2" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 150 + 50 }}">
+                                <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
+                                    @if($article->image && $article->image->url)
+                                        <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
+                                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                    @else
+                                        <img src="{{ asset('img/default-article.jpg') }}" alt="Default article image"
+                                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                    @endif
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
 
-                    <!-- Artikel tambahan (sembunyi awal) -->
-                    <div x-show="showAll" class="grid grid-cols-3 gap-6 mt-6">
-                        @foreach($articles->slice(3) as $article)
-                            <div
-                                class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
-                                <!-- Gambar Artikel -->
-                                <div class="w-full px-4 pt-4 pb-2">
-                                    <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
-                                        @if($article->image && $article->image->url)
-                                            <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
-                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
-                                        @else
-                                            <img src="{{ asset('img/default-article.jpg') }}" alt="Default article image"
-                                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
-                                        @endif
-                                    </div>
+                            <!-- Konten Artikel -->
+                            <div class="p-4 flex flex-col flex-grow">
+                                <div class="text-left" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 + 100 }}">
+                                    <h3 class="text-sm md:text-base font-semibold text-[#0090D4] mb-2 line-clamp-2">
+                                        {{ $article->title }}
+                                    </h3>
+                                    <p class="text-sm text-gray-700 mb-4 line-clamp-3">
+                                        {{ Str::limit(strip_tags($article->content), 100) }}
+                                    </p>
                                 </div>
-
-                                <!-- Konten Artikel -->
-                                <div class="p-4 flex flex-col flex-grow">
-                                    <div class="text-left">
-                                        <h3 class="text-sm md:text-base font-semibold text-[#0090D4] mb-2 line-clamp-2">
-                                            {{ $article->title }}
-                                        </h3>
-                                        <p class="text-sm text-gray-700 mb-4 line-clamp-3">
-                                            {{ Str::limit(strip_tags($article->content), 100) }}
-                                        </p>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <a href="{{ route('landing.article.detail', $article->id) }}"
-                                            class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-4 py-2 text-sm rounded-lg transition-colors duration-300">
-                                            Selengkapnya
-                                        </a>
-                                    </div>
+                                <div class="mt-auto" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 + 150 }}">
+                                    <a href="{{ route('landing.article.detail', $article->id) }}"
+                                        class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-4 py-2 text-sm rounded-lg transition-colors duration-300">
+                                        Selengkapnya
+                                    </a>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
+                </div>
 
-                    <!-- Tombol Tampilkan Lebih Banyak (Desktop saja) -->
+                <!-- Artikel tambahan (sembunyi awal) -->
+                <div x-show="showAll" class="grid grid-cols-3 gap-6 mt-6">
+                    @foreach($articles->slice(3) as $article)
+                        <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}"
+                            class="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
+                            <!-- Gambar Artikel -->
+                            <div class="w-full px-4 pt-4 pb-2" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 150 + 50 }}">
+                                <div class="aspect-[16/9] w-full overflow-hidden rounded-lg">
+                                    @if($article->image && $article->image->url)
+                                        <img src="{{ asset($article->image->url) }}" alt="{{ $article->title }}"
+                                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                    @else
+                                        <img src="{{ asset('img/default-article.jpg') }}" alt="Default article image"
+                                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 border-b-2 border-[#0090D4]">
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Konten Artikel -->
+                            <div class="p-4 flex flex-col flex-grow">
+                                <div class="text-left" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 + 100 }}">
+                                    <h3 class="text-sm md:text-base font-semibold text-[#0090D4] mb-2 line-clamp-2">
+                                        {{ $article->title }}
+                                    </h3>
+                                    <p class="text-sm text-gray-700 mb-4 line-clamp-3">
+                                        {{ Str::limit(strip_tags($article->content), 100) }}
+                                    </p>
+                                </div>
+                                <div class="mt-auto" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 + 150 }}">
+                                    <a href="{{ route('landing.article.detail', $article->id) }}"
+                                        class="inline-block bg-[#0090D4] hover:bg-[#007bb3] text-white px-4 py-2 text-sm rounded-lg transition-colors duration-300">
+                                        Selengkapnya
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
                     @if($articles->count() > 3)
-                        <div class="mt-8 text-center">
+                        <div class="mt-8 text-center" data-aos="fade-up"
+                            data-aos-delay="{{ ($articles->count() >= 3 ? 3 : $articles->count()) * 150 + 100 }}">
                             <button @click="showAll = !showAll"
                                 class="bg-[#0090D4] hover:bg-[#007bb3] text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300">
                                 <span x-text="showAll ? 'Sembunyikan' : 'Tampilkan Lebih Banyak'"></span>
-                                <svg x-show="!showAll" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-1"
-                                    viewBox="0 0 20 20" fill="currentColor">
+                                <svg x-show="!showAll" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-1" viewBox="0 0 20 20"
+                                    fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <svg x-show="showAll" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-1"
-                                    viewBox="0 0 20 20" fill="currentColor">
+                                <svg x-show="showAll" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline ml-1" viewBox="0 0 20 20"
+                                    fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
                                         clip-rule="evenodd" />
@@ -320,14 +325,15 @@
 <footer class="bg-white py-4">
     <div class="max-w-7xl mx-auto px-4">
         <!-- Container Maps dengan border top-bottom -->
-        <div class="py-6 mb-6">
-            <h2 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center">TENTANG KAMI
+        <div class="py-6 mb-6" data-aos="fade-up">
+            <h2 class="font-bold text-[20px] md:text-[32px] text-[#0090D4] flex items-center justify-center text-center"
+                data-aos="zoom-in" data-aos-delay="100">
+                TENTANG KAMI
             </h2>
-            <div class="w-full h-[200px] md:h-[450px]">
-
+            <div class="w-full h-[200px] md:h-[450px]" data-aos="fade-up" data-aos-delay="200">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.590863909551!2d111.86268027484245!3d-7.6194175923959495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e784bf5e349dfa9%3A0x311f48f59fab4e95!2sTK%20Pertiwi%20Grojogan!5e0!3m2!1sid!2sid!4v1746017641729!5m2!1sid!2sid"
-                    class="w-full h-full border-b-3 border-t-3  border-[#0090D4] " allowfullscreen="" loading="lazy"
+                    class="w-full h-full border-b-3 border-t-3 border-[#0090D4]" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
@@ -336,18 +342,17 @@
         <!-- Baris kode pos dan kontak -->
         <div class="flex flex-col md:flex-row gap-6 mb-8">
             <!-- Kode Pos di Kiri -->
-            <div class="w-full md:w-1/2">
+            <div class="w-full md:w-1/2" data-aos="fade-right">
                 <div class="flex items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0090D4] mt-1 mr-3 flex-shrink-0"
-                        viewBox="0 0 20 20" fill="currentColor">
+                        viewBox="0 0 20 20" fill="currentColor" data-aos="flip-left" data-aos-delay="100">
                         <path fill-rule="evenodd"
                             d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                             clip-rule="evenodd" />
                     </svg>
-                    <div>
+                    <div data-aos="fade-up" data-aos-delay="150">
                         <h4 class="text-sm font-semibold text-gray-700">Alamat Lengkap</h4>
                         <p class="text-sm text-gray-600">
-                            
                             Grojogan, Kec. Berbek<br>
                             Kab. Nganjuk, Jawa Timur<br>
                             64473
@@ -357,21 +362,22 @@
             </div>
 
             <!-- Kontak di Kanan -->
-            <div class="w-full md:w-1/2">
-                <h3 class="text-lg font-semibold text-[#0090D4] mb-3">Hubungi Kami</h3>
+            <div class="w-full md:w-1/2" data-aos="fade-left">
+                <h3 class="text-lg font-semibold text-[#0090D4] mb-3" data-aos="zoom-in" data-aos-delay="100">Hubungi
+                    Kami</h3>
                 <div class="space-y-3">
-                    <div class="flex items-center">
+                    <div class="flex items-center" data-aos="fade-up" data-aos-delay="100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0090D4] mr-3 flex-shrink-0"
-                            viewBox="0 0 20 20" fill="currentColor">
+                            viewBox="0 0 20 20" fill="currentColor" data-aos="flip-left" data-aos-delay="150">
                             <path
                                 d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                         </svg>
                         <p class="text-sm">(0358) 123456</p>
                     </div>
 
-                    <div class="flex items-center">
+                    <div class="flex items-center" data-aos="fade-up" data-aos-delay="150">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#0090D4] mr-3 flex-shrink-0"
-                            viewBox="0 0 20 20" fill="currentColor">
+                            viewBox="0 0 20 20" fill="currentColor" data-aos="flip-left" data-aos-delay="200">
                             <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                         </svg>
@@ -380,8 +386,7 @@
                 </div>
             </div>
         </div>
-
-        @include('landing.partial.footer')
+         @include('landing.partial.footer')
     </div>
 </footer>
 
