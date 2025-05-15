@@ -3,137 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use App\Models\Parents;
 use App\Models\Classes;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $query = Student::query()->with(['class', 'parent']);
+        $students = Student::with(['class', 'parent'])->get();
+        return view('admin.siswa.index', compact('students'));
 
-        // Search filter
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $query->where('name', 'like', "%{$search}%")
-                ->orWhere('number', 'like', "%{$search}%")
-                ->orWhereHas('parent', function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%");
-                });
+
+        if ($request->has('filter') && $request->filter != 'all') {
+            $query->whereHas('class', function ($q) use ($request) {
+                $q->where('name', $request->filter);
+            });
         }
 
-        // Class filter
-        if ($request->has('class')) {
-            $query->where('class_id', $request->input('class'));
+        $students = $query->get();
+        return view('admin.students.index', compact('students'));
+    }
+
+  
+
+    /**
+     * Show the form for editing class assignments.
+     */
+    public function editClass()
+    {
+        $students = Student::with('class')->get();
+        $classes = Classes::all();
+        return view('admin.siswa.aturkelas', compact('students', 'classes'));
+    }
+
+    /**
+     * Update class assignments for multiple students.
+     */
+    public function updateClass(Request $request)
+    {
+        $validated = $request->validate([
+            'students.*.id' => 'required|exists:students,id',
+            'students.*.class_id' => 'nullable|exists:classes,id'
+        ]);
+
+        foreach ($request->students as $studentData) {
+            $student = Student::find($studentData['id']);
+            if ($student) {
+                $student->update(['class_id' => $studentData['class_id']]);
+            }
         }
 
-        $students = $query->orderBy('number')->paginate(10);
-        $classes = Classes::all();
-
-        return view('admin.siswa.index', compact('students', 'classes'));
-    }
-    public function create()
-    {
-        $classes = Classes::all();
-        return view('admin.siswa.tambah_siswa', compact('classes'));
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'number' => 'nullable|string|max:20',
-            'gender' => 'nullable|in:Laki-laki,Perempuan',
-            'ttl' => 'nullable|string|max:255',
-            'religion' => 'nullable|string|max:50',
-            'parent_name' => 'required|string|max:255',
-            'parent_ttl' => 'nullable|string|max:255',
-            'parent_education' => 'nullable|string|max:100',
-            'parent_work' => 'nullable|string|max:100',
-            'parent_phone_number' => 'nullable|string|max:20',
-            'parent_address' => 'nullable|string',
-            'class_id' => 'required|exists:classes,id'
-        ]);
-
-       
-        // Create parent first
-        $parent = Parents::create([
-            'name' => $validated['parent_name'],
-            'education' => $validated['parent_education'],
-            'work' => $validated['parent_work'],
-            'phone_number' => $validated['parent_phone_number'],
-            'address' => $validated['parent_address'],
-            'user_id' => auth()->id() // assuming parent is linked to the current user
-        ]);
-
-        // Then create student
-        $student = Student::create([
-            'parent_id' => $parent->id,
-            'class_id' => $validated['class_id'],
-            'name' => $validated['name'],
-            'number' => $validated['number'],
-            'gender' => $validated['gender'],
-            'ttl' => $validated['ttl'],
-            'religion' => $validated['religion']
-        ]);
-
-        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil ditambahkan');
-    }
-
-    public function show(Student $student)
-    {
-        return view('siswa.show', compact('student'));
-    }
-
-    public function edit(Student $student)
-    {
-        $classes = Classes::all();
-        return view('siswa.edit', compact('student', 'classes'));
-    }
-
-    public function update(Request $request, Student $student)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'number' => 'nullable|string|max:20',
-            'gender' => 'nullable|in:Laki-laki,Perempuan',
-            'ttl' => 'nullable|string|max:255',
-            'religion' => 'nullable|string|max:50',
-            'parent_name' => 'required|string|max:255',
-            'parent_ttl' => 'nullable|string|max:255',
-            'parent_education' => 'nullable|string|max:100',
-            'parent_work' => 'nullable|string|max:100',
-            'parent_phone_number' => 'nullable|string|max:20',
-            'parent_address' => 'nullable|string',
-            'class_id' => 'nullable|exists:classes,id'
-        ]);
-
-        // Update parent
-        $student->parent->update([
-            'name' => $validated['parent_name'],
-            'education' => $validated['parent_education'],
-            'work' => $validated['parent_work'],
-            'phone_number' => $validated['parent_phone_number'],
-            'address' => $validated['parent_address']
-        ]);
-
-        // Update student
-        $student->update([
-            'class_id' => $validated['class_id'],
-            'name' => $validated['name'],
-            'number' => $validated['number'],
-            'gender' => $validated['gender'],
-            'ttl' => $validated['ttl'],
-            'religion' => $validated['religion']
-        ]);
-
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui');
-    }
-
-    public function destroy(Student $student)
-    {
-        $student->parent->delete(); // This will also delete the student due to cascade
-        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil dihapus');
+        return redirect()->route('siswa.index')->with('success', 'Kelas siswa berhasil diperbarui');
     }
 }

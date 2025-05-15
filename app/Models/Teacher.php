@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,16 +8,26 @@ class Teacher extends Model
 {
     use HasFactory;
 
-    protected $table = 'teacher_landing';
-
     protected $fillable = [
+        'id',
+        'user_id',
         'name',
         'nip',
-        'ni_ppk',
         'ttl',
         'address',
         'phone_number',
         'position',
-        'photo_path'
+        'about_me'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function image()
+{
+    return $this->morphOne(ImageUrl::class, 'owner');
+}
+
 }

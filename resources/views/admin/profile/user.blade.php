@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   @include('admin.partial.link')
   <link rel="icon" type="icon" href="/img/logo tutwuri.png">
@@ -20,7 +23,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 items-center md:px-10 px-4 mt-4">
         <h1 class="text-black text-sm uppercase font-semibold lg:inline-block">Profile</h1>
         <div class="flex items-center justify-end space-x-4">
-          @include('admin.partial.user_info')
+        
         </div>
       </div>
 
@@ -29,13 +32,15 @@
           <h2 class="text-2xl font-semibold text-gray-800">Informasi Pengguna</h2>
           <!-- Tombol Logout (Text + Icon merah) -->
           <form method="POST" action="{{ route('logout') }}" id="logoutForm">
-            @csrf
-            <button type="button" onclick="confirmLogout()"
-              class="text-red-500 hover:text-red-700 transition-colors flex items-center">
-              <i class="fas fa-sign-out-alt mr-2"></i>
-              <span>Keluar</span>
-            </button>
-          </form>
+                @csrf
+                @method('POST')
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <button type="button" onclick="confirmLogout()"
+                    class="text-red-500 hover:text-red-700 transition-colors flex items-center">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    <span>Keluar</span>
+                </button>
+            </form>
         </div>
 
         @if(session('success'))
@@ -86,8 +91,8 @@ $imageUrl = $profileImage ? asset($profileImage->url) . '?v=' . time() : asset('
   @include('admin.partial.script')
 
   <script>
-    function confirmLogout() {
-      Swal.fire({
+   function confirmLogout() {
+    Swal.fire({
         title: 'Konfirmasi Logout',
         text: "Apakah Anda yakin ingin keluar dari sistem?",
         icon: 'warning',
@@ -97,12 +102,19 @@ $imageUrl = $profileImage ? asset($profileImage->url) . '?v=' . time() : asset('
         confirmButtonText: 'Ya, Keluar',
         cancelButtonText: 'Batal',
         reverseButtons: true
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
-          document.getElementById('logoutForm').submit();
+            // Submit form logout
+            document.getElementById('logoutForm').submit();
+            
+            // Setelah logout, redirect ke login & force reload tanpa cache
+            setTimeout(() => {
+                window.location.href = '/login'; // Ganti dengan URL login Anda
+                window.location.reload(true); // `true` = force reload tanpa cache
+            }, 500);
         }
-      });
-    }
+    });
+}
   </script>
 </body>
 

@@ -18,7 +18,7 @@
       <!-- HEADER -->
       <div class="grid grid-cols-1 md:grid-cols-2 items-center md:px-10 px-4 mt-4">
         <a class="text-black text-sm uppercase font-semibold lg:inline-block">Edit Profile</a>
-        @include('admin.partial.user_info')
+      
       </div>
 
       <div class="bg-white rounded-2xl max-w-4xl mx-auto p-8 mt-8 shadow-md">

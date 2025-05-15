@@ -82,7 +82,7 @@ class ArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
         ]);
 
         try {

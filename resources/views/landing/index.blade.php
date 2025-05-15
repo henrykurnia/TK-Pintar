@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 
     @include('landing.partial.link')
@@ -19,24 +19,37 @@ $heroController = new \App\Http\Controllers\HeroController();
 $heroImages = $heroController->getHeroImages();
 @endphp
 
-<section id="hero" class="relative w-full md:h-screen aspect-[16/9] overflow-hidden">
+<section id="hero" 
+         class="relative w-full md:h-screen aspect-[16/9] overflow-hidden scroll-mt-16 md:scroll-mt-20"
+         data-aos="fade-in" data-aos-duration="1000">
     <div id="slides" class="w-full h-full relative">
         @forelse($heroImages as $index => $image)
             <img src="{{ asset($image->image_path) }}"
-                class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }} z-{{ $index === 0 ? '10' : '0' }}" />
+                class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }} z-{{ $index === 0 ? '10' : '0' }}"
+                data-aos="fade-in" 
+                data-aos-duration="800"
+                data-aos-delay="{{ $index * 300 }}" />
         @empty
             <img src="{{ asset('img/default-hero.jpg') }}"
-                class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-100 z-10" />
+                class="slide w-full h-full object-cover object-center absolute transition-opacity duration-700 opacity-100 z-10"
+                data-aos="fade-in" 
+                data-aos-duration="800" />
         @endforelse
     </div>
 
     @if(count($heroImages) > 1)
         <button id="prev"
-            class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
+            class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20"
+            data-aos="fade-right" 
+            data-aos-duration="500"
+            data-aos-delay="500">
             <i class="fas fa-chevron-left text-lg md:text-xl"></i>
         </button>
         <button id="next"
-            class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20">
+            class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-[#0090D4] p-1.5 md:p-2 rounded-full shadow-md z-20"
+            data-aos="fade-left" 
+            data-aos-duration="500"
+            data-aos-delay="500">
             <i class="fas fa-chevron-right text-lg md:text-xl"></i>
         </button>
     @endif

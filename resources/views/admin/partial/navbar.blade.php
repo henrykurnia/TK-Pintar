@@ -79,10 +79,29 @@
             <i class="fas fa-newspaper mr-2 text-sm {{ request()->is('artikel') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
             Artikel
           </a>
+          <li class="items-center">
+                    <a href="{{ url('/pengumuman') }}" class="text-xs uppercase py-3 font-bold block 
+                            {{ request()->is('pengumuman') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
+                        <i
+                            class="fas fa-reguler fa-bullhorn mr-2 text-sm {{ request()->is('pengumuman') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
+                        Pengumuman
+                    </a>
+                </li>
+                 
+                <li class="items-center">
+                <a href="{{ url('/hblajar') }}" class="text-xs uppercase py-3 font-bold block 
+                            {{ request()->is('hblajar') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
+                        <i
+                            class="fas fa-book mr-2 text-sm {{ request()->is('hblajar') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
+                        Hasil Belajar
+                    </a>
+                </li>
        
         <li class="items-center">
-          <a href="./settings.html" class="text-xs uppercase py-3 font-bold block text-blueGray-700 hover:text-blueGray-500">
-            <i class="fas fa-wallet mr-2 text-sm text-blueGray-300"></i>
+        <a href="{{ url('/pembayaran') }}" class="text-xs uppercase py-3 font-bold block 
+                            {{ request()->is('pembayaran') ? 'text-[#0090D4]' : 'text-blueGray-700 hover:text-[#0090D4]' }}">
+                        <i
+                            class="fas fa-wallet mr-2 text-sm {{ request()->is('pembayaran') ? 'text-[#0090D4]' : 'text-blueGray-300' }}"></i>
             Pembayaran
           </a>
         </li>

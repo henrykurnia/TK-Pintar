@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher;
+use App\Models\TeacherL;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -10,7 +10,7 @@ class TeacherController extends Controller
     // Display semua teachers/staff
     public function index()
     {
-        $teachers = Teacher::all();
+        $teachers = TeacherL::all();
         return view('admin.guru.index', compact('teachers'));
     }
 
@@ -30,7 +30,7 @@ class TeacherController extends Controller
             'address' => 'nullable|string',
             'phone_number' => 'nullable|string|max:20',
             'position' => 'nullable|string|max:100',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
         ]);
 
         try {
@@ -41,7 +41,7 @@ class TeacherController extends Controller
                 $validated['photo_path'] = 'teacher_photos/' . $photoName;
             }
 
-            Teacher::create($validated);
+            TeacherL::create($validated);
 
             return response()->json([
                 'success' => true,
@@ -57,21 +57,21 @@ class TeacherController extends Controller
 
     public function show($id)
     {
-        $teacher = Teacher::findOrFail($id);
+        $teacher = TeacherL::findOrFail($id);
         return view('admin.guru.show', compact('teacher'));
     }
 
     // Menampilkan daftar guru/staff di halaman landing
     public function showOnLanding()
     {
-        $teachers = Teacher::all();
+        $teachers = TeacherL::all();
         return view('landing.guru', compact('teachers'));
     }
 
     // show di edit
     public function edit($id)
     {
-        $teacher = Teacher::findOrFail($id);
+        $teacher = TeacherL::findOrFail($id);
         return view('admin.guru.edit', compact('teacher'));
     }
 
@@ -88,7 +88,7 @@ class TeacherController extends Controller
         ]);
 
         try {
-            $teacher = Teacher::findOrFail($id);
+            $teacher = TeacherL::findOrFail($id);
 
             // upload foto baru
             if ($request->hasFile('photo')) {
@@ -130,7 +130,7 @@ class TeacherController extends Controller
     public function destroy($id)
     {
         try {
-            $teacher = Teacher::findOrFail($id);
+            $teacher = TeacherL::findOrFail($id);
 
             // Hapus foto lama kalau ada
             if ($teacher->photo_path && file_exists(public_path($teacher->photo_path))) {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ValueController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
@@ -8,6 +9,9 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 
@@ -16,6 +20,12 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 });
+
+// Lupa Password Routes
+Route::get('/password/otp', [ForgotPasswordController::class, 'showOtpRequestForm'])->name('password.otp');
+Route::post('/password/otp', [ForgotPasswordController::class, 'sendOtp']);
+Route::get('/password/reset', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ForgotPasswordController::class, 'resetPassword']);
 
 // Protected Routes (hanya untuk yang sudah login)
 Route::middleware('auth')->group(function () {
@@ -29,8 +39,7 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 });
 
-//
-
+//gurulanding
 Route::prefix('guru')->middleware(['auth'])->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('guru.index');
     Route::get('/tambah', [TeacherController::class, 'create'])->name('guru.create');
@@ -43,8 +52,8 @@ Route::prefix('guru')->middleware(['auth'])->group(function () {
 
 Route::get('/guru-staff', [TeacherController::class, 'showOnLanding'])->name('landing.guru');
 
+// article
 Route::prefix('artikel')->middleware(['auth'])->group(function () {
-    // Articles Routes
     Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/', [ArticleController::class, 'store'])->name('articles.store');
@@ -53,20 +62,6 @@ Route::prefix('artikel')->middleware(['auth'])->group(function () {
     Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
 
-Route::middleware('auth')->group(function () {
-    // Student routes
-    Route::prefix('siswa')->group(function () {
-        Route::get('/', [StudentController::class, 'index'])->name('siswa.index');  // Changed from '/siswa' to '/'
-        Route::get('/tambah', [StudentController::class, 'create'])->name('siswa.create');
-        Route::post('/tambah', [StudentController::class, 'store'])->name('siswa.store');
-        Route::get('/{student}', [StudentController::class, 'show'])->name('siswa.show');
-        Route::get('/{student}/edit', [StudentController::class, 'edit'])->name('siswa.edit');
-        Route::put('/{student}', [StudentController::class, 'update'])->name('siswa.update');
-        Route::delete('/{student}', [StudentController::class, 'destroy'])->name('siswa.destroy');
-    });
-
-    // Other routes...
-});
 
 Route::get('/artikel/{id}', [ArticleController::class, 'showArticleDetail'])->name('landing.article.detail');
 
@@ -86,9 +81,13 @@ Route::get('/berkas', function () {
 //     return view('admin.dashboard');
 // });
 
-// Route::get('/siswa', function () {
-//     return view('admin.siswa.index');
-// });
+// Route untuk data siswa
+Route::prefix('siswa')->group(function () {
+    Route::get('/', [StudentController::class, 'index'])->name('siswa.index');
+    Route::get('/create', [StudentController::class, 'create'])->name('siswa.create');
+    Route::get('/atur-kelas', [StudentController::class, 'editClass'])->name('siswa.atur_kelas');
+    Route::post('/atur-kelas', [StudentController::class, 'updateClass'])->name('siswa.update_kelas');
+});
 
 // Route::get('/tambah', function () {
 //     return view('admin.siswa.tambah_siswa');
@@ -125,18 +124,44 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('admin.profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('admin.profile.update');
+    
 });
 
-// guru
-Route::get('/siswa_guru', function () {
-    return view('guru.siswa');
+
+
+Route::prefix('pengumuman')->middleware('auth')->group(function () {
+    Route::get('/', [AnnouncementController::class, 'index'])->name('pengumuman.index');
+    Route::get('/tambah', [AnnouncementController::class, 'create'])->name('pengumuman.create');
+    Route::post('/', [AnnouncementController::class, 'store'])->name('pengumuman.store');
+    Route::get('/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('pengumuman.edit');
+    Route::put('/{announcement}', [AnnouncementController::class, 'update'])->name('pengumuman.update');
+    Route::delete('/{announcement}', [AnnouncementController::class, 'destroy'])->name('pengumuman.destroy');
 });
 
-Route::get('/tambah_pengumuman', function () {
-    return view('guru.pengumuman');
+Route::prefix('hblajar')->middleware('auth')->group(function () {
+    // Hasil Belajar Routes
+    Route::get('/', [ValueController::class, 'index'])
+        ->name('hasil-belajar.index');
+
+    Route::get('/input/{student}', [ValueController::class, 'inputNilai'])
+        ->name('hasil-belajar.input');
+
+    Route::post('/simpan/{student}', [ValueController::class, 'simpanNilai'])
+        ->name('hasil-belajar.simpan');
 });
 
-Route::get('/pengumuman', function () {
-    return view('guru.index');
+Route::prefix('pembayaran')->middleware('auth')->group(function () {
+    // Pembayaran Routes
+    Route::get('/', [PaymentController::class, 'index'])->name('pembayaran.index');
+    Route::get('/input/{student}', [PaymentController::class, 'create'])->name('pembayaran.create');
+    Route::post('/simpan/{student}', [PaymentController::class, 'store'])->name('pembayaran.store');
 });
+
+// Route::get('/add_pengumuman', function () {
+//     return view('admin.tambah_pengumuman');
+// });
+
+// Route::get('/index_pengumuman', function () {
+//     return view('admin.pengumuman');
+// });
 

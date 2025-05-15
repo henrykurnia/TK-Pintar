@@ -10,8 +10,8 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8">
                 @php
-                    $fragment = request()->query('_fragment');
-                    $currentPath = request()->path();
+$fragment = request()->query('_fragment');
+$currentPath = request()->path();
                 @endphp
 
                 <a href="{{ url('/?_fragment=hero') }}"
@@ -40,48 +40,81 @@
                 </a>
             </div>
 
-
+            <!-- Desktop Login Button -->
             <a href="{{ url('/login') }}"
-                class="px-2.5 py-1 text-xs md:px-4 md:py-2 md:text-base bg-[#0090D4] text-white font-semibold rounded-md hover:bg-blue-600 transition-colors duration-300">
+                class="hidden md:block px-2.5 py-1 text-xs md:px-4 md:py-2 md:text-base bg-[#0090D4] text-white font-semibold rounded-md hover:bg-blue-600 transition-colors duration-300">
                 Masuk
+            </a>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-button" class="text-gray-500 hover:text-[#0090D4] focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white w-full">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            @php
+$fragment = request()->query('_fragment');
+$currentPath = request()->path();
+            @endphp
+
+            <a href="{{ url('/?_fragment=hero') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium {{ ($currentPath === '/' && (!$fragment || $fragment === 'hero')) ? 'text-[#0090D4] bg-blue-50' : 'text-gray-500 hover:text-[#0090D4] hover:bg-blue-50' }}">
+                Beranda
+            </a>
+            <a href="{{ url('/?_fragment=sekilas') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium {{ $fragment === 'sekilas' ? 'text-[#0090D4] bg-blue-50' : 'text-gray-500 hover:text-[#0090D4] hover:bg-blue-50' }}">
+                Sekilas
+            </a>
+            <a href="{{ url('/?_fragment=visi-misi') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium {{ $fragment === 'visi-misi' ? 'text-[#0090D4] bg-blue-50' : 'text-gray-500 hover:text-[#0090D4] hover:bg-blue-50' }}">
+                Visi-Misi
+            </a>
+            <a href="{{ url('/?_fragment=artikel') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium {{ $fragment === 'artikel' ? 'text-[#0090D4] bg-blue-50' : 'text-gray-500 hover:text-[#0090D4] hover:bg-blue-50' }}">
+                Artikel
+            </a>
+            <a href="{{ url('/guru-staff') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium {{ $currentPath === 'guru-staff' ? 'text-[#0090D4] bg-blue-50' : 'text-gray-500 hover:text-[#0090D4] hover:bg-blue-50' }}">
+                Guru & Staff
+            </a>
+            <a href="{{ url('/berkas') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium {{ $currentPath === 'berkas' ? 'text-[#0090D4] bg-blue-50' : 'text-gray-500 hover:text-[#0090D4] hover:bg-blue-50' }}">
+                Pendaftaran
             </a>
         </div>
     </div>
 </nav>
 
-<!-- Bottom Navbar Mobile -->
-<div class="md:hidden fixed bottom-0 left-0 w-full bg-white drop-shadow-md z-50">
-    <div class="flex justify-around py-3 px-2 text-sm">
-        <a href="{{ url('/?_fragment=hero') }}"
-            class="mobile-nav-link flex flex-col items-center {{ ($currentPath === '/' && (!$fragment || $fragment === 'hero')) ? 'text-[#0090D4]' : 'text-gray-500' }}">
-            <span class="text-xs">BERANDA</span>
-        </a>
-        <a href="{{ url('/?_fragment=sekilas') }}"
-            class="mobile-nav-link flex flex-col items-center {{ $fragment === 'sekilas' ? 'text-[#0090D4]' : 'text-gray-500' }}">
-            <span class="text-xs">SEKILAS</span>
-        </a>
-        <a href="{{ url('/?_fragment=visi-misi') }}"
-            class="mobile-nav-link flex flex-col items-center {{ $fragment === 'visi-misi' ? 'text-[#0090D4]' : 'text-gray-500' }}">
-            <span class="text-xs">VISI-MISI</span>
-        </a>
-        <a href="{{ url('/?_fragment=artikel') }}"
-            class="mobile-nav-link flex flex-col items-center {{ $fragment === 'artikel' ? 'text-[#0090D4]' : 'text-gray-500' }}">
-            <span class="text-xs">ARTIKEL</span>
-        </a>
-        <a href="{{ url('/guru-staff') }}"
-            class="mobile-nav-link flex flex-col items-center {{ $currentPath === 'guru-staff' ? 'text-[#0090D4]' : 'text-gray-500' }}">
-            <span class="text-xs">GURU & STAFF</span>
-        </a>
-        <a href="{{ url('/berkas') }}"
-            class="mobile-nav-link flex flex-col items-center {{ $currentPath === 'berkas' ? 'text-[#0090D4]' : 'text-gray-500' }}">
-            <span class="text-xs">PENDAFTARAN</span>
-        </a>
-    </div>
+<!-- Floating Login Button (Mobile Only) -->
+<div class="md:hidden fixed bottom-6 right-6 z-50">
+    <a href="{{ url('/login') }}"
+        class="flex items-center justify-center w-14 h-14 rounded-full bg-[#0090D4] text-white shadow-lg hover:bg-blue-600 transition-colors duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+        </svg>
+    </a>
 </div>
 
 <!-- Scroll + Active Link Highlight Script -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Fragment handling
         const fragment = new URLSearchParams(window.location.search).get('_fragment');
         if (fragment) {
             const target = document.getElementById(fragment);
@@ -117,11 +150,15 @@
                     if (el) {
                         const navHeight = document.querySelector('nav').offsetHeight;
                         const y = el.getBoundingClientRect().top + window.pageYOffset - navHeight;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
+
+                        // Tambahkan buffer 10px untuk memastikan tidak tertutup
+                        window.scrollTo({ top: y - 10, behavior: 'smooth' });
+
                         history.replaceState(null, '', `?_fragment=${fragment}`);
                         activateLink(fragment);
                     }
                 }
+                mobileMenu.classList.add('hidden');
             });
         });
     });
